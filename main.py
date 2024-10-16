@@ -35,6 +35,26 @@ def main():
     cell.has_right_wall = False
     cell.draw()
 
+
+    point_one = Point(300, 400)
+    point_two = Point(350, 450)
+    cell_one = Cell(point_one, point_two, win)
+    cell_one.draw()
+
+    point_one = Point(350, 400)
+    point_two = Point(400, 450)
+    cell_two = Cell(point_one, point_two, win)
+    cell_two.draw()
+
+    cell_one.draw_move(cell_two)
+
+    point_one = Point(400, 400)
+    point_two = Point(450, 450)
+    cell_three = Cell(point_one, point_two, win)
+    cell_three.draw()
+
+    cell_two.draw_move(cell_three)
+
     win.wait_for_close()
 
 if __name__ == "__main__":
