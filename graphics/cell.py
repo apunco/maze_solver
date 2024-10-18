@@ -3,7 +3,7 @@ from tkinter import Canvas
 from .line import Line
 
 class Cell:
-    def __init__(self, point_top_left, point_bottom_right, window):
+    def __init__(self, point_top_left, point_bottom_right, window = None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -15,17 +15,18 @@ class Cell:
         self.__win = window
 
     def draw(self):
-        if self.has_top_wall:
-            self.draw_top_line()
-        
-        if self.has_right_wall:
-            self.draw_right_line()
+        if not self.__win is None: 
+            if self.has_top_wall:
+                self.draw_top_line()
+            
+            if self.has_right_wall:
+                self.draw_right_line()
 
-        if self.has_bottom_wall:
-            self.draw_bottom_line()
+            if self.has_bottom_wall:
+                self.draw_bottom_line()
 
-        if self.has_left_wall:
-            self.draw_left_line()
+            if self.has_left_wall:
+                self.draw_left_line()
     
     def draw_move(self, to_cell, undo=False):
         line = Line(self.get_center(),
@@ -33,7 +34,8 @@ class Cell:
         color = "gray" if undo else "red"
         self.__win.draw_line(line, color)
 
-    def draw_top_line(self, ):
+    def draw_top_line(self):
+        print(self)
         line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
         self.__win.draw_line(line, "black")
 
