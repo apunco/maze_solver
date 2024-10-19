@@ -5,12 +5,13 @@ from graphics.cell import Cell
 from maze import Maze
 
 def main():
-    win = Window(800, 600)
+    win = Window(1200, 1000)
 
-    num_cols = 10
-    num_rows = 10
-    m1 = Maze(5, 5, num_rows, num_cols, 50, 50, win, 0)
+    num_cols = 30
+    num_rows = 20
+    m1 = Maze(5, 5, num_rows, num_cols, 50, 50, win)
 
+    m1.solver()
     win.wait_for_close()
 
 
