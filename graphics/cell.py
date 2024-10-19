@@ -16,17 +16,10 @@ class Cell:
 
     def draw(self):
         if not self.__win is None: 
-            if self.has_top_wall:
-                self.draw_top_line()
-            
-            if self.has_right_wall:
-                self.draw_right_line()
-
-            if self.has_bottom_wall:
-                self.draw_bottom_line()
-
-            if self.has_left_wall:
-                self.draw_left_line()
+            self.draw_top_line(self.has_top_wall)
+            self.draw_right_line(self.has_right_wall)
+            self.draw_bottom_line(self.has_bottom_wall)
+            self.draw_left_line(self.has_left_wall)
     
     def draw_move(self, to_cell, undo=False):
         line = Line(self.get_center(),
@@ -34,22 +27,25 @@ class Cell:
         color = "gray" if undo else "red"
         self.__win.draw_line(line, color)
 
-    def draw_top_line(self):
+    def draw_top_line(self, visible):
         line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
-        self.__win.draw_line(line, "black")
+        self.__win.draw_line(line, self._get_line_color(visible))
 
-    def draw_right_line(self):
+    def draw_right_line(self, visible):
         line = Line(Point(self.__x1, self.__y1), Point(self.__x1, self.__y2))
-        self.__win.draw_line(line, "black")
+        self.__win.draw_line(line, self._get_line_color(visible))
 
-    def draw_bottom_line(self):
+    def draw_bottom_line(self, visible):
         line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
-        self.__win.draw_line(line, "black")
+        self.__win.draw_line(line, self._get_line_color(visible))
 
-    def draw_left_line(self):
+    def draw_left_line(self, visible):
         line = Line(Point(self.__x2, self.__y1), Point(self.__x2, self.__y2))
-        self.__win.draw_line(line, "black")
+        self.__win.draw_line(line, self._get_line_color(visible))
         
+    def _get_line_color(self, visible):
+        return "black" if visible else "white"
+    
     def get_center(self):
         return Point((self.__x1 + self.__x2) / 2,
                     (self.__y1 + self.__y2) / 2)

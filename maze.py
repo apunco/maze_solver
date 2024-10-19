@@ -32,17 +32,11 @@ class Maze:
                 top_left_point = Point(self.x1 + (c * self.cell_size_x), self.y1 + (r * self.cell_size_y))
                 bottom_right_point = Point(self.x1 + self.cell_size_x + (c * self.cell_size_x), self.y1 + self.cell_size_y + (r * self.cell_size_y))
                 cell = Cell(top_left_point, bottom_right_point, self.__win)
+                cell.draw()
                 col.append(cell)
 
             self._cells.append(col)
         self._break_entrance_and_exit()
-
-        for c in range(self.num_cols):
-            for r in range(self.num_rows):
-                print(f"C {c} R {r} has top {self._cells[c][r].has_top_wall}")
-                print(f"C {c} R {r} has bottom {self._cells[c][r].has_bottom_wall}")
-
-                self._draw_cell(c, r)
 
     def _draw_cell(self, c, r):
        self._cells[c][r].draw()
@@ -55,4 +49,6 @@ class Maze:
         
     def _break_entrance_and_exit(self):
         self._cells[0][0].has_top_wall = False
+        self._cells[0][0].draw()
         self._cells[-1][-1].has_bottom_wall = False
+        self._cells[-1][-1].draw()
