@@ -35,8 +35,7 @@ class Cell:
         self.__win.draw_line(line, color)
 
     def draw_top_line(self):
-        print(self)
-        line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
+        line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
         self.__win.draw_line(line, "black")
 
     def draw_right_line(self):
@@ -44,7 +43,7 @@ class Cell:
         self.__win.draw_line(line, "black")
 
     def draw_bottom_line(self):
-        line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
+        line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
         self.__win.draw_line(line, "black")
 
     def draw_left_line(self):
