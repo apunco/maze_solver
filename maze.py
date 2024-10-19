@@ -93,24 +93,25 @@ class Maze:
             print(direction)
             print(neighbours_not_visited)
             if neighbours_not_visited[direction][0] > c:
-                self._cells[c][r].has_right_wall = False
+                self._cells[c][r].has_left_wall = False
+                self._cells[c + 1][r].has_right_wall = False
+                self.__win.redraw()
                 self._cells[c][r].draw()
-                self._cells[c + 1][r].has_left_wall = False
                 self._cells[c + 1][r].draw()
             elif neighbours_not_visited[direction][0] < c:
-                self._cells[c][r].has_left_wall = False
+                self._cells[c][r].has_right_wall = False
+                self._cells[c - 1][r].has_left_wall = False
                 self._cells[c][r].draw()
-                self._cells[c - 1][r].has_right_wall = False
                 self._cells[c - 1][r].draw()
             elif neighbours_not_visited[direction][1] > r:
                 self._cells[c][r].has_bottom_wall = False
-                self._cells[c][r].draw()
                 self._cells[c][r + 1].has_top_wall = False
+                self._cells[c][r].draw()
                 self._cells[c][r + 1].draw()
             elif neighbours_not_visited[direction][1] < r:
                 self._cells[c][r].has_top_wall = False
-                self._cells[c][r].draw()
                 self._cells[c][r - 1].has_bottom_wall = False
+                self._cells[c][r].draw()                
                 self._cells[c][r - 1].draw()                
 
             self._break_walls_r(neighbours_not_visited[direction][0], neighbours_not_visited[direction][1])
