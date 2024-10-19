@@ -1,6 +1,7 @@
 from graphics.cell import Cell
 from graphics.point import Point
 import time
+from random import Random
 
 class Maze:
     def __init__(
@@ -12,6 +13,7 @@ class Maze:
         cell_size_x,
         cell_size_y,
         win = None,
+        seed = None
     ):
 
         self.x1 = x1
@@ -22,6 +24,7 @@ class Maze:
         self.cell_size_y = cell_size_y
         self._cells = []
         self.__win = win
+        self.__seed = seed
 
         self._create_cells()
 
@@ -37,6 +40,7 @@ class Maze:
 
             self._cells.append(col)
         self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
 
     def _draw_cell(self, c, r):
        self._cells[c][r].draw()
@@ -52,3 +56,61 @@ class Maze:
         self._cells[0][0].draw()
         self._cells[-1][-1].has_bottom_wall = False
         self._cells[-1][-1].draw()
+
+    def _break_walls_r(self, c, r):
+
+        self._cells[c][r].visited = True
+        
+        while True:
+            time.sleep(0.05)
+            self.__win.redraw()
+            neighbours_not_visited = []
+
+            print(f"CELL C {c} R {r}")
+            if c > 0 and not self._cells[c - 1][r].visited:
+                neighbours_not_visited.append((c - 1, r))
+            
+            if c < self.num_cols - 1 and not self._cells[c + 1][r].visited:    
+                neighbours_not_visited.append((c + 1, r))
+            
+            if r > 0 and not self._cells[c][r - 1].visited:
+                neighbours_not_visited.append((c, r - 1))
+            
+            if r < self.num_rows - 1 and not self._cells[c][r + 1].visited:
+                neighbours_not_visited.append((c, r + 1))
+
+            if not neighbours_not_visited:
+                self._cells[c][r].draw()
+                return
+
+            random = Random()   
+            
+            if self.__seed:
+                random.seed(self.__seed)
+
+            direction = random.randint(0, len(neighbours_not_visited) - 1)
+
+            print(direction)
+            print(neighbours_not_visited)
+            if neighbours_not_visited[direction][0] > c:
+                self._cells[c][r].has_right_wall = False
+                self._cells[c][r].draw()
+                self._cells[c + 1][r].has_left_wall = False
+                self._cells[c + 1][r].draw()
+            elif neighbours_not_visited[direction][0] < c:
+                self._cells[c][r].has_left_wall = False
+                self._cells[c][r].draw()
+                self._cells[c - 1][r].has_right_wall = False
+                self._cells[c - 1][r].draw()
+            elif neighbours_not_visited[direction][1] > r:
+                self._cells[c][r].has_bottom_wall = False
+                self._cells[c][r].draw()
+                self._cells[c][r + 1].has_top_wall = False
+                self._cells[c][r + 1].draw()
+            elif neighbours_not_visited[direction][1] < r:
+                self._cells[c][r].has_top_wall = False
+                self._cells[c][r].draw()
+                self._cells[c][r - 1].has_bottom_wall = False
+                self._cells[c][r - 1].draw()                
+
+            self._break_walls_r(neighbours_not_visited[direction][0], neighbours_not_visited[direction][1])
